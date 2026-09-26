@@ -1,8 +1,8 @@
 {
-  "name": "jalrakshak",
+  "name": "hdns",
   "private": true,
   "version": "1.0.0",
-  "description": "Jalrakshak — flood & water-level early warning system (hackathon build)",
+  "description": "HDNS — Humanity Digital Nervous System: flood & water-level early warning (hackathon build)",
   "workspaces": [
     "backend",
     "frontend",

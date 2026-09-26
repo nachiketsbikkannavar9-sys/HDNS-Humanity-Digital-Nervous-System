@@ -39,7 +39,7 @@ describe("subscriptionWatchLabel / unsubscribeUrl", () => {
 describe("buildCitizenMessage", () => {
   it("is plain language with thresholds, honest demo note and unsubscribe link", () => {
     const msg = buildCitizenMessage(station, { level: 22, riskScore: 72, category: "Severe", rateOfRise: 0.4 }, sub);
-    expect(msg).toContain("JALRAKSHAK CITIZEN ALERT — SEVERE (72/100)");
+    expect(msg).toContain("HDNS CITIZEN ALERT — SEVERE (72/100)");
     expect(msg).toContain("normal 19 · warning 21.5 · danger 22.5 m");
     expect(msg).toContain("Move valuables to higher ground"); // guidance action text
     expect(msg).toContain("NOT an official NDMA/NDRF alert");

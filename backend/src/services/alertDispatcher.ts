@@ -54,12 +54,12 @@ function buildMessage(
       ? `Still rising — ~${fmtProjectionHours(proj.hoursToDanger)} to danger level (linear estimate).`
       : "";
   return (
-    `JALRAKSHAK FLOOD ALERT — ${category.toUpperCase()} (${riskScore}/100)\n` +
+    `HDNS FLOOD ALERT — ${category.toUpperCase()} (${riskScore}/100)\n` +
     `Station: ${station.name} (${station.place})\n` +
     `Level: ${level} ${station.unit}${rateLine}\n` +
     `Thresholds: warning ${station.warningLevel} / danger ${station.dangerLevel} ${station.unit}\n` +
     (projLine ? `${projLine}\n` : "") +
-    `──\nSent to a DEMO distribution list (not NDRF/NDMA). Acknowledge in the Jalrakshak authority console.`
+    `──\nSent to a DEMO distribution list (not NDRF/NDMA). Acknowledge in the HDNS authority console.`
   );
 }
 

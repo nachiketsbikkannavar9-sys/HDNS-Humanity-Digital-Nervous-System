@@ -11,6 +11,7 @@ export function Alerts() {
   const [alerts, setAlerts] = useState<AlertDTO[]>([]);
   const [filter, setFilter] = useState<"all" | "sms" | "email">("all");
   const [isAuthority] = useState(() => !!getToken());
+  const [ackError, setAckError] = useState<string | null>(null);
 
   useEffect(() => {
     get<{ alerts: AlertDTO[] }>("/api/alerts").then((r) => setAlerts(r.alerts)).catch(() => undefined);
@@ -28,16 +29,23 @@ export function Alerts() {
   const unacked = alerts.filter((a) => !a.acknowledgedAt).length;
 
   const ack = async (id: string) => {
+    setAckError(null);
     try {
       const r = await post<{ alert: AlertDTO }>(`/api/alerts/${id}/acknowledge`);
       setAlerts((p) => p.map((x) => (x.id === id ? r.alert : x)));
     } catch (e) {
-      alert((e as Error).message);
+      setAckError((e as Error).message);
     }
   };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
+      {ackError && (
+        <div className="mb-4 px-4 py-2.5 rounded-lg text-sm border border-red-500/30 bg-red-500/10 text-red-300 flex items-center justify-between">
+          <span>✕ {ackError}</span>
+          <button onClick={() => setAckError(null)} className="text-xs text-red-400 hover:text-red-200">dismiss</button>
+        </div>
+      )}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-semibold text-white">Alert feed</h1>

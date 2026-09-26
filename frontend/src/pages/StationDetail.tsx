@@ -45,7 +45,13 @@ export function StationDetail() {
     const u1 = subscribe<AlertDTO>("alert:new", (a) => {
       if (a.stationId === id) setAlerts((prev) => [a, ...prev]);
     });
-    return u1;
+    const u2 = subscribe<AlertDTO>("alert:acked", (a) => {
+      if (a.stationId === id) setAlerts((prev) => prev.map((x) => (x.id === a.id ? a : x)));
+    });
+    return () => {
+      u1();
+      u2();
+    };
   }, [id]);
 
   const meta = station?.latest ? CATEGORY_META[station.latest.category] : CATEGORY_META["No data"];

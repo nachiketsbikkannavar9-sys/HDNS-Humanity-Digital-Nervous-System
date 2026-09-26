@@ -1,4 +1,4 @@
-# Jalrakshak — 90-second live demo script (for judges)
+# HDNS — 90-second live demo script (for judges)
 
 Setup on your machine (~2 min, do this **before** judges arrive):
 

@@ -48,7 +48,7 @@ export function UnsubscribePage() {
   const unsubscribe = async () => {
     const r = await post<{ unsubscribed: boolean; email?: string }>("/api/subscribe/unsubscribe", { token });
     if (r.unsubscribed) {
-      setMessage(`You're unsubscribed${r.email ? ` (${r.email})` : ""}. No further Jalrakshak demo alerts will be emailed to this address.`);
+      setMessage(`You're unsubscribed${r.email ? ` (${r.email})` : ""}. No further HDNS demo alerts will be emailed to this address.`);
       setState("gone");
     } else {
       setMessage(r.email === undefined ? "No active subscription was found for that link — nothing to remove." : "");
@@ -65,7 +65,7 @@ export function UnsubscribePage() {
       <div className="max-w-2xl mx-auto px-4 py-16 text-center">
         <h1 className="text-lg text-white">Whoops — that link isn't valid</h1>
         <p className="mt-2 text-sm text-slate-500">
-          The unsubscribe token was missing or already used. Use the link from the most recent Jalrakshak email, or
+          The unsubscribe token was missing or already used. Use the link from the most recent HDNS email, or
           just ignore it and we won't bother you.
         </p>
       </div>

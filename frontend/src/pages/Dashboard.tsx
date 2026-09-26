@@ -96,10 +96,11 @@ export function Dashboard() {
     const unsubBoot = subscribe<{ stations: StationDTO[] }>("app:boot", (r) => {
       if (r?.stations?.length) setStations(r.stations);
     });
-    subscribe("alert:new", () => setAlertsCount((c) => c + 1));
+    const unsubAlert = subscribe("alert:new", () => setAlertsCount((c) => c + 1));
     return () => {
       unsub();
       unsubBoot();
+      unsubAlert();
     };
   }, []);
 

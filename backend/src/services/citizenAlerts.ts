@@ -47,13 +47,13 @@ export function buildCitizenMessage(
       ? `It is ${aboveNormal.toFixed(2)} ${station.unit} above the normal baseline (${station.normalLevel} ${station.unit}).`
       : `It is at/under the normal baseline (${station.normalLevel} ${station.unit}).`;
   return (
-    `JALRAKSHAK CITIZEN ALERT — ${reading.category.toUpperCase()} (${reading.riskScore}/100)\n` +
+    `HDNS CITIZEN ALERT — ${reading.category.toUpperCase()} (${reading.riskScore}/100)\n` +
     `Station: ${station.name} (${station.place}) · ${eyes}\n` +
     `Level now: ${reading.level} ${station.unit} · normal ${station.normalLevel} · warning ${station.warningLevel} · danger ${station.dangerLevel} ${station.unit}\n` +
     `${positionLine} ${rateLine}\n` +
     `What to do: ${guidance.action}\n` +
     `──\n` +
-    `This is a Jalrakshak demo notification and is NOT an official NDMA/NDRF alert.\n` +
+    `This is a HDNS demo notification and is NOT an official NDMA/NDRF alert.\n` +
     `Manage these emails: ${unsubscribeUrl(sub)}`
   );
 }

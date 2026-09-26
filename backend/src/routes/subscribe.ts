@@ -66,12 +66,12 @@ router.post("/", async (req: Request, res: Response) => {
       });
 
   // Confirmation notice — delivered via the same honest demo channel.
-  const subject = "Jalrakshak: you're subscribed to river alerts";
+  const subject = "HDNS: you're subscribed to river alerts";
   await deliver(
     "email",
     email,
     subject,
-    `You subscribed to Jalrakshak river alerts.\nWatching: ${subscriptionWatchLabel(sub)}\n\nManage these emails: ${unsubscribeUrl(sub)}\n\nThis is a hackathon demo — not an official NDMA/NDRF feed.`
+    `You subscribed to HDNS river alerts.\nWatching: ${subscriptionWatchLabel(sub)}\n\nManage these emails: ${unsubscribeUrl(sub)}\n\nThis is a hackathon demo — not an official NDMA/NDRF feed.`
   );
 
   res.status(201).json({ subscribed: true, subscription: toSubscriptionDTO(sub) });

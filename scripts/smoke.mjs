@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Jalrakshak — manual smoke suite (the verification gate before each feature
+ * HDNS — manual smoke suite (the verification gate before each feature
  * phase lands). Run against a live backend (:4000) + frontend (:5173).
  *
  *   node scripts/smoke.mjs            # API checks only (fast)
@@ -44,7 +44,7 @@ function dump(url, virtualTime = 9000) {
 }
 
 async function run() {
-  console.log(`\nJALRAKSHAK SMOKE · ${API} · ${DOM ? "DOM checks ON" : "API-only"}\n`);
+  console.log(`\nHDNS SMOKE · ${API} · ${DOM ? "DOM checks ON" : "API-only"}\n`);
 
   // ── API: health -----------------------------------------------------------
   try {

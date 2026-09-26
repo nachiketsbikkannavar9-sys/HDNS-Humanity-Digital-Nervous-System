@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { RiskCategory, StationDTO } from "../../../shared/src/index.js";
 import { get, post } from "../lib/api";
+import { subscribe } from "../lib/socket";
 import { CATEGORY_ORDER, CATEGORY_META, PUBLIC_GUIDANCE } from "../lib/risk";
 import { fmtLevel, fmtRelative } from "../lib/format";
 import { MapView, type UserPoint } from "../components/MapView";
@@ -99,6 +100,23 @@ export function PublicView() {
       .then((r) => setStations(r.stations))
       .catch((e) => console.error("load stations", e))
       .finally(() => setLoading(false));
+
+    const unsub = subscribe<StationDTO>("station:update", (st) => {
+      setStations((prev) => {
+        const i = prev.findIndex((p) => p.id === st.id);
+        if (i === -1) return [st, ...prev];
+        const next = prev.slice();
+        next[i] = st;
+        return next;
+      });
+    });
+    const unsubBoot = subscribe<{ stations: StationDTO[] }>("app:boot", (r) => {
+      if (r?.stations?.length) setStations(r.stations);
+    });
+    return () => {
+      unsub();
+      unsubBoot();
+    };
   }, []);
 
   const byCategory = useMemo(() => {
@@ -219,7 +237,7 @@ export function PublicView() {
       </div>
 
       <p className="mt-5 text-[11px] text-slate-600 leading-relaxed max-w-3xl">
-        This is a hackathon demo. Category colours come from Jalrakshak's server-side risk formula
+        This is a hackathon demo. Category colours come from HDNS's server-side risk formula
         (proximity to danger · 60 + rate-of-rise · 30 + rain · 10). Personal exposure (Normal → Critical, the same
         category scale) is a separate,
         location-level estimate ("how at-risk is THIS point") — modelled, not a guarantee; it never overrides the

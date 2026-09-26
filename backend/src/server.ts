@@ -37,7 +37,7 @@ async function main() {
 
   app.get("/", (_req, res) => {
     res.json({
-      app: "Jalrakshak API",
+      app: "HDNS API — Humanity Digital Nervous System",
       version: "1.0.0",
       docs: "GET /api/stations, /api/alerts, /api/alerts/stats, /api/auth/*",
       live: new Date().toISOString(),
@@ -56,7 +56,7 @@ async function main() {
   initIo(server);
   server.listen(config.port, () => {
     console.log(`\n══════════════════════════════════════════`);
-    console.log(`  Jalrakshak API  ·  http://localhost:${config.port}`);
+    console.log(`  HDNS API  ·  http://localhost:${config.port}`);
     console.log(`  Socket.IO live updates on the same port`);
     console.log(`  ⏳ boot telemetry sync running in background…`);
     console.log(`══════════════════════════════════════════\n`);

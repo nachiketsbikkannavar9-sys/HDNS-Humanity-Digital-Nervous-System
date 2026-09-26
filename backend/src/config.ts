@@ -35,7 +35,7 @@ export const config = {
   publicApiBase: str("PUBLIC_API_BASE", "http://localhost:4000"),
   databaseUrl: str(
     "DATABASE_URL",
-    "postgresql://postgres:postgres@127.0.0.1:55432/jalrakshak"
+    "postgresql://postgres:postgres@127.0.0.1:55432/hdns"
   ),
   autoStartPg: bool("AUTO_START_PG", true),
   jwtSecret: str("JWT_SECRET", "dev-secret-change-me"),
@@ -46,7 +46,7 @@ export const config = {
   stationRefreshHr: num("STATION_REFRESH_HR", 6),
 
   resendApiKey: str("RESEND_API_KEY", ""),
-  alertEmailFrom: str("ALERT_EMAIL_FROM", "Jalrakshak Demo <demo@jalrakshak.local>"),
+  alertEmailFrom: str("ALERT_EMAIL_FROM", "HDNS Demo <demo@hdns.local>"),
   twilioAccountSid: str("TWILIO_ACCOUNT_SID", ""),
   twilioAuthToken: str("TWILIO_AUTH_TOKEN", ""),
   twilioFrom: str("TWILIO_FROM", ""),

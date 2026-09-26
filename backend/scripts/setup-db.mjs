@@ -9,7 +9,7 @@ import { pg_ctl, initdb } from "@embedded-postgres/linux-x64";
 import pg from "pg";
 
 const PORT = 55432;
-const DB = "jalrakshak";
+const DB = "hdns";
 const DIR = path.resolve(new URL("../.pgdata", import.meta.url).pathname);
 const execFileP = promisify(execFile);
 const log = (...a) => console.log("[db]", ...a);

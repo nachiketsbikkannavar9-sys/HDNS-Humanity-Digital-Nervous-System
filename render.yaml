@@ -1,9 +1,9 @@
-# Render Blueprint for the Jalrakshak backend (see https://render.com/docs/blueprint-spec).
+# Render Blueprint for the HDNS backend (see https://render.com/docs/blueprint-spec).
 # Point DATABASE_URL at a Neon (or any hosted) Postgres; AUTO_START_PG=0 skips the
 # embedded Postgres. Frontend stays on Vercel at https://flood-chi.vercel.app.
 services:
   - type: web
-    name: jalrakshak-api
+    name: hdns-api
     runtime: node
     plan: free
     rootDir: /

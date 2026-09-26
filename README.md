@@ -1,4 +1,4 @@
-# Jalrakshak 🌊
+# HDNS — Humanity Digital Nervous System 🌊
 
 **Flood & water-level early-warning system for lakes, rivers and dams** — a
 full-stack, end-to-end working build for the national hackathon: real telemetry
@@ -117,7 +117,7 @@ Add to `backend/.env` (then restart):
 
 ```
 RESEND_API_KEY=re_...
-ALERT_EMAIL_FROM=Jalrakshak Demo <onboarding@resend.dev>
+ALERT_EMAIL_FROM=HDNS Demo <onboarding@resend.dev>
 TWILIO_ACCOUNT_SID=AC...
 TWILIO_AUTH_TOKEN=...
 TWILIO_FROM=+15551234567

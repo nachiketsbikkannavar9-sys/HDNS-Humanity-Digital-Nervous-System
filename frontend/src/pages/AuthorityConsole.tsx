@@ -10,7 +10,7 @@ import { fmtDateTime, fmtRelative } from "../lib/format";
 
 export function AuthorityConsole() {
   const nav = useNavigate();
-  const user = getAuthUser();
+  const [user] = useState(() => getAuthUser());
   const [alerts, setAlerts] = useState<AlertDTO[]>([]);
   const [contacts, setContacts] = useState<ContactDTO[]>([]);
   const [stations, setStations] = useState<StationDTO[]>([]);
@@ -33,14 +33,20 @@ export function AuthorityConsole() {
       u1();
       u2();
     };
-  }, [user, nav]);
+  }, [user?.id, nav]);
 
   const national = isNationalScope(user);
   const inScope = (s: StationDTO) => stationInScope(user, s);
-  const scoped = (a: AlertDTO) => stationInScope(user, { id: a.stationId, region: undefined });
-  const scopedAlerts = useMemo(() => alerts.filter(scoped), [alerts, national]);
+  const scopedAlerts = useMemo(() => {
+    if (national) return alerts;
+    // Map alert to known station to verify region if needed, otherwise backend already scoped it
+    return alerts.filter((a) => {
+      const st = stations.find((s) => s.id === a.stationId);
+      return st ? inScope(st) : true;
+    });
+  }, [alerts, stations, national, user]);
   const unacked = useMemo(() => scopedAlerts.filter((a) => !a.acknowledgedAt), [scopedAlerts]);
-  const simStations = useMemo(() => stations.filter((s) => s.simulated && inScope(s)), [stations, national]);
+  const simStations = useMemo(() => stations.filter((s) => s.simulated && inScope(s)), [stations, national, user]);
 
   const ack = async (id: string) => {
     setBusyId(id);
