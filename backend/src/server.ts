@@ -1,5 +1,8 @@
 import "dotenv/config";
 import http from "node:http";
+import path from "node:path";
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
 import express from "express";
 import cors from "cors";
 import { config } from "./config.js";
@@ -35,7 +38,7 @@ async function main() {
   app.use(cors({ origin: config.corsOrigins, credentials: true }));
   app.use(express.json());
 
-  app.get("/", (_req, res) => {
+  app.get("/api/info", (_req, res) => {
     res.json({
       app: "HDNS API — Humanity Digital Nervous System",
       version: "1.0.0",
@@ -51,6 +54,17 @@ async function main() {
   app.use("/api/admin", adminRouter);
   app.use("/api/subscribe", subscribeRouter);
   app.use("/api/location", locationRouter);
+
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const distDir = path.resolve(__dirname, "../../frontend/dist");
+  if (fs.existsSync(distDir)) {
+    app.use(express.static(distDir));
+    app.get("*", (req, res, next) => {
+      if (req.path.startsWith("/api") || req.path.startsWith("/socket.io")) return next();
+      res.sendFile(path.join(distDir, "index.html"));
+    });
+  }
 
   const server = http.createServer(app);
   initIo(server);
