@@ -110,6 +110,37 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
           fetchedAt: new Date().toISOString(),
         } as T;
       }
+      if (cleanPath === "/api/location/demo") {
+        return {
+          station: { id: "fb-brahmaputra", name: "Brahmaputra at Guwahati", place: "Guwahati, Assam" },
+          low: {
+            lat: 26.183,
+            lng: 91.731,
+            label: "Demo · low ground beside the river",
+            category: "Warning",
+            score: 68,
+          },
+          raised: {
+            lat: 26.195,
+            lng: 91.752,
+            label: "Demo · raised ground, same gauge",
+            category: "Normal",
+            score: 22,
+          },
+          crossedBands: true,
+          lowDistanceKm: 0.8,
+          withinLocalRangeKm: 50,
+          generatedAt: new Date().toISOString(),
+        } as T;
+      }
+      if (cleanPath === "/api/subscribe") {
+        return {
+          email: "demo@citizen.local",
+          watching: "Assam",
+          subscribedAt: new Date().toISOString(),
+          active: true,
+        } as T;
+      }
     } else {
       // POST fallback for demo actions when offline
       if (path.includes("/acknowledge")) {
@@ -131,6 +162,12 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
           note: "Demo mode: simulated spike triggered successfully.",
         } as T;
       }
+      if (path === "/api/admin/trend") {
+        return {
+          note: "Demo mode: trend adjustment simulated.",
+          stationId: "fb-brahmaputra",
+        } as T;
+      }
       if (path === "/api/subscribe") {
         return {
           subscribed: true,
@@ -141,6 +178,48 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
           },
         } as T;
       }
+      if (path === "/api/subscribe/unsubscribe") {
+        return {
+          unsubscribed: true,
+          email: "demo@citizen.local",
+        } as T;
+      }
+      if (path === "/api/auth/login") {
+        const bodyObj = (typeof init.body === "string" ? JSON.parse(init.body) : init.body) ?? {};
+        const email = String(bodyObj.email ?? "").toLowerCase();
+        let user = {
+          id: "auth-ndrf",
+          email: "ndrf@demo.local",
+          role: "admin",
+          displayName: "NDRF Control Room (Demo)",
+          jurisdictionRegions: [] as string[],
+          jurisdictionStationIds: [] as string[],
+        };
+        if (email.includes("assam")) {
+          user = {
+            id: "auth-assam",
+            email: "assam-sdma@demo.local",
+            role: "district_officer",
+            displayName: "Assam SDMA (Demo)",
+            jurisdictionRegions: ["Assam"],
+            jurisdictionStationIds: [],
+          };
+        } else if (email.includes("bihar")) {
+          user = {
+            id: "auth-bihar",
+            email: "bihar-sdma@demo.local",
+            role: "district_officer",
+            displayName: "Bihar SDMA (Demo)",
+            jurisdictionRegions: ["Bihar"],
+            jurisdictionStationIds: [],
+          };
+        }
+        return { token: "demo-jwt-token", user } as T;
+      }
+    }
+    if (path.startsWith("/api/auth/me")) {
+      const user = getAuthUser();
+      return { user } as T;
     }
     throw err;
   }
