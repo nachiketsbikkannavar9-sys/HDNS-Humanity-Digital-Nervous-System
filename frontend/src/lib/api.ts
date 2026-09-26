@@ -34,6 +34,7 @@ export function setAuthUser(user: unknown) {
 import {
   FALLBACK_ALERTS,
   FALLBACK_STATIONS,
+  getFallbackExposure,
   getFallbackHistory,
   getFallbackStats,
 } from "./fallbackData";
@@ -85,30 +86,10 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
         } as T;
       }
       if (cleanPath === "/api/location/exposure") {
-        const st = FALLBACK_STATIONS[0];
-        return {
-          location: { lat: 26.18, lng: 91.73 },
-          elevation: { elevationM: 52.4, available: true },
-          distanceKm: 4.2,
-          nearestStation: st,
-          exposure: {
-            score: 64,
-            category: "Warning",
-            available: true,
-            modelled: true,
-            confidence: "high",
-            factors: [],
-          },
-          explanation: {
-            score: 64,
-            category: "Warning",
-            headline: "Moderate flood risk in your area",
-            why: "River level is elevated and rising nearby.",
-          },
-          advice: { action: "Stay alert and monitor district flood bulletins.", level: "Warning" },
-          modelled: true,
-          fetchedAt: new Date().toISOString(),
-        } as T;
+        const urlParams = new URLSearchParams(path.split("?")[1] ?? "");
+        const lat = Number(urlParams.get("lat") ?? 26.18);
+        const lng = Number(urlParams.get("lng") ?? 91.73);
+        return getFallbackExposure(lat, lng) as T;
       }
       if (cleanPath === "/api/location/demo") {
         return {

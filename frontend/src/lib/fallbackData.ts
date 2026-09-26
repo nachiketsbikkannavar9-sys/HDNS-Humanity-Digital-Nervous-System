@@ -10,6 +10,10 @@ import {
   categoryFromScore,
   explainRisk,
   type LevelBasis,
+  computePersonalExposure,
+  explainPersonalExposure,
+  personalExposureAdvice,
+  type ExposureInput,
 } from "../../../shared/src/index.js";
 
 const now = Date.now();
@@ -839,5 +843,82 @@ export function getFallbackHistory(stationId: string, hours = 24): { points: His
       current: st.latest?.level ?? st.normalLevel,
       category: st.latest?.category ?? "Normal",
     },
+  };
+}
+
+export function haversineKm(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+export function getFallbackExposure(lat: number, lng: number) {
+  let nearest: StationDTO = FALLBACK_STATIONS[0];
+  let minDist = Infinity;
+  for (const s of FALLBACK_STATIONS) {
+    const d = haversineKm(lat, lng, s.lat, s.lng);
+    if (d < minDist) {
+      minDist = d;
+      nearest = s;
+    }
+  }
+
+  const userElevationM = 52.4;
+  const input: ExposureInput = {
+    stationHazardScore: nearest.latest?.riskScore ?? null,
+    waterLevel: nearest.latest?.level ?? null,
+    levelBasis: nearest.levelBasis ?? null,
+    rateOfRise: nearest.latest?.rateOfRise ?? null,
+    stationLevelRange: nearest.dangerLevel - nearest.normalLevel,
+    riseNormDivisor: nearest.riskConfig?.riseNormDivisor ?? null,
+    rainfallMm: nearest.latest?.rainfallMm ?? null,
+    userElevationM,
+    distanceKm: minDist,
+    inundated: null,
+  };
+  const display = {
+    stationName: nearest.name,
+    place: nearest.place,
+    hazardCategory: nearest.latest?.category ?? null,
+  };
+  const exposure = computePersonalExposure(input);
+  const explanation = explainPersonalExposure(input, display);
+  const advice = personalExposureAdvice(input, display);
+
+  return {
+    location: { lat, lng },
+    elevation: {
+      elevationM: userElevationM,
+      available: true,
+      cacheKey: `fb-${lat}-${lng}`,
+      fetched: true,
+      error: null,
+    },
+    distanceKm: Math.round(minDist * 10) / 10,
+    nearestStation: {
+      id: nearest.id,
+      name: nearest.name,
+      place: nearest.place,
+      region: nearest.region,
+      kind: nearest.kind,
+      lat: nearest.lat,
+      lng: nearest.lng,
+      unit: nearest.unit,
+      levelBasis: nearest.levelBasis,
+      normalLevel: nearest.normalLevel,
+      warningLevel: nearest.warningLevel,
+      dangerLevel: nearest.dangerLevel,
+      hazardCategory: nearest.latest?.category ?? null,
+      latest: nearest.latest,
+    },
+    exposure,
+    explanation,
+    advice,
+    modelled: true,
+    fetchedAt: new Date().toISOString(),
   };
 }
