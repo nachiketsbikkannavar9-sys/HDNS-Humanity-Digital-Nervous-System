@@ -1,7 +1,13 @@
 # HDNS — Humanity Digital Nervous System 🌊
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-flood--tan.vercel.app-22d3ee?style=for-the-badge&logo=vercel)](https://flood-tan.vercel.app)
+[![Tests Passing](https://img.shields.io/badge/Tests-58%20Passing-emerald?style=for-the-badge)](https://github.com/nachiketsbikkannavar9-sys/jalrakshak)
+
+**Live Deployment:** [https://flood-tan.vercel.app](https://flood-tan.vercel.app)  
+**Demo Authority Credentials:** `ndrf@demo.local` / `ChangeMe123!` (National Admin) · `assam-sdma@demo.local` (Assam SDMA) · `bihar-sdma@demo.local` (Bihar SDMA)
+
 **Flood & water-level early-warning system for lakes, rivers and dams** — a
-full-stack, end-to-end working build for the national hackathon: real telemetry
+full-stack, end-to-end working build: real telemetry
 in, server-side risk scoring, real alert dispatch to a configurable contact
 list, and an authority acknowledgement loop.
 
