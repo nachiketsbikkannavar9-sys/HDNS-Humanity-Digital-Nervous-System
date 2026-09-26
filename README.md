@@ -4,7 +4,9 @@
 [![Tests Passing](https://img.shields.io/badge/Tests-58%20Passing-emerald?style=for-the-badge)](https://github.com/nachiketsbikkannavar9-sys/jalrakshak)
 
 **Live Deployment:** [https://flood-tan.vercel.app](https://flood-tan.vercel.app)  
-**Demo Authority Credentials:** `ndrf@demo.local` / `ChangeMe123!` (National Admin) · `assam-sdma@demo.local` (Assam SDMA) · `bihar-sdma@demo.local` (Bihar SDMA)
+**Demo Authority Credentials:**
+"Demo login for reviewers — not a   production system." 
+`ndrf@demo.local` / `ChangeMe123!` (National Admin) · `assam-sdma@demo.local` (Assam SDMA) · `bihar-sdma@demo.local` (Bihar SDMA)
 
 **Flood & water-level early-warning system for lakes, rivers and dams** — a
 full-stack, end-to-end working build: real telemetry
